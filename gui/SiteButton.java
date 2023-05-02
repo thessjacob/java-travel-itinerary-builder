@@ -16,6 +16,7 @@ public class SiteButton extends JButton {
     private final DataViewController dvc = DataViewController.INSTANCE;
     private final ItineraryController ic = ItineraryController.INSTANCE;
 
+
     SiteButton(String siteName) {
         super(siteName);
         this.siteName = siteName;

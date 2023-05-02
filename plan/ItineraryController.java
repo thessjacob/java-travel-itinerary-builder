@@ -14,7 +14,7 @@ public enum ItineraryController {
     private Itinerary itinerary;
     public JList<String> list;
 
-    final SchedulingLogicController sc = SchedulingLogicController.INSTANCE;
+    final SchedulingLogicController slc = SchedulingLogicController.INSTANCE;
 
     public void initItinerary(String title) {
         itinerary = new Itinerary(title);
@@ -38,9 +38,9 @@ public enum ItineraryController {
     public boolean addItineraryItem(String itemName, String type) {
         if (type.equals("AbstractSite")) {
             AbstractSite site = dvc.getCountry().getSite(itemName);
+            slc.addActivityTime(site.getDefaultTime(), true);
             ItineraryItem itineraryItem = new ItineraryItem(site);
-            boolean canAdd = hasEnoughTime(site);
-            if (canAdd && !itinerary.hasItem(itemName)) {
+            if (!itinerary.hasItem(itemName)) {
                 itinerary.addItineraryItem(itineraryItem);
                 dvc.refreshItineraryPanel(site.getDefaultTime());
                 return true;
@@ -49,6 +49,7 @@ public enum ItineraryController {
             }
         } else if (type.equals("AbstractCity")) {
             AbstractCity city = dvc.getCountry().getCity(itemName);
+            slc.addActivityTime(10, true);
             ItineraryItem itineraryItem = new ItineraryItem(city);
             itinerary.addItineraryItem(itineraryItem);
             dvc.refreshItineraryPanel(itinerary.getFREETIME());
@@ -58,16 +59,23 @@ public enum ItineraryController {
     }
 
     public void addItineraryItemTimeSite(String itemName) {
-        double newTime = itinerary.getTime() + itinerary.getFREETIME();
-        if (newTime < 12.0) {
+        boolean canAdd = slc.addActivityTime(itinerary.getFREETIME(), false);
+        if (canAdd) {
             itinerary.getItineraryItem(itemName).addTime();
             dvc.refreshItineraryPanel(itinerary.getFREETIME());
+        } else {
+            dvc.throwTimeWarning();
         }
     }
 
     public void addItineraryItemTimeCity(String itemName) {
-        itinerary.getItineraryItem(itemName).addTime();
-        dvc.refreshItineraryPanel(itinerary.getFREETIME());
+        boolean canAdd = slc.addActivityTime(itinerary.getFREETIME(), false);
+        if (canAdd) {
+            itinerary.getItineraryItem(itemName).addTime();
+            dvc.refreshItineraryPanel(itinerary.getFREETIME());
+        } else {
+            dvc.throwTimeWarning();
+        }
     }
 
     private boolean hasEnoughTime(AbstractSite site) {
@@ -89,6 +97,7 @@ public enum ItineraryController {
     }
 
     public void addItineraryRest(String name) {
+        slc.addRestTime(10.0);
         itinerary.addItineraryRest("Night in " + name, 10.0, "Rest up!");
         dvc.refreshItineraryPanel(10.0);
     }
@@ -99,8 +108,8 @@ public enum ItineraryController {
     }
 
     public boolean hasItem(String itemName) {
-        if (! (getItinerary().getItineraryItems() == null)) {
-            for (ItineraryItem item : getItinerary().getItineraryItems()) {
+        if (! (itinerary.getDailyItineraryItems() == null)) {
+            for (ItineraryItem item : getItinerary().getDailyItineraryItems()) {
                 if (item.getName().equals(itemName)) {
                     return true;
                 }
@@ -119,12 +128,12 @@ public enum ItineraryController {
     }
 
     public HashSet<ItineraryItem> getItineraryItems() {
-        return itinerary.getItineraryItems();
+        return itinerary.getDailyItineraryItems();
     }
 
     void setPlannedHours() {
-        sc.allocateDays(getItineraryItems());
-        itinerary.setPlannedHours(sc.getPlannedHours());
+        slc.allocateDays(getItineraryItems());
+        itinerary.setPlannedHours(slc.getPlannedHours());
     }
 
     public void setItineraryTitle(String newTitle) {

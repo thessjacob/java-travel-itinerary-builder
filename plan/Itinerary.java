@@ -1,12 +1,14 @@
 package plan;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 class Itinerary {
 
-    private LinkedHashSet<ItineraryItem> itineraryItems;
+    private ArrayList<LinkedHashSet<ItineraryItem>> allItineraryItems;
+    private LinkedHashSet<ItineraryItem> dailyItineraryItems;
     private HashMap<Integer, Double> plannedHours;
     private String title;
     private double time;
@@ -17,7 +19,8 @@ class Itinerary {
     Itinerary(String title) {
         this.title = title;
         this.time = 0;
-        itineraryItems = new LinkedHashSet<>();
+        dailyItineraryItems = new LinkedHashSet<>();
+        allItineraryItems = new ArrayList<>();
     }
 
     Itinerary(String title, double time) {
@@ -31,18 +34,18 @@ class Itinerary {
     }
 
     void addItineraryItem(ItineraryItem itineraryItem) {
-        itineraryItems.add(itineraryItem);
+        dailyItineraryItems.add(itineraryItem);
         time += itineraryItem.getTime();
     }
 
     void removeItineraryItem(ItineraryItem itineraryItem) {
         time -= itineraryItem.getTime();
-        itineraryItems.remove(itineraryItem);
+        dailyItineraryItems.remove(itineraryItem);
     }
 
     ItineraryItem getItineraryItem(String itemName) {
-        if (itineraryItems.size() > 0) {
-            for (ItineraryItem item : itineraryItems) {
+        if (dailyItineraryItems.size() > 0) {
+            for (ItineraryItem item : dailyItineraryItems) {
                 if (item.getName().equals(itemName)) {
                     return item;
                 }
@@ -52,18 +55,23 @@ class Itinerary {
     }
 
     void addItineraryRest(String name, double time, String description) {
-        itineraryItems.add(new ItineraryItem(name, time, description));
+        dailyItineraryItems.add(new ItineraryItem(name, time, description));
+        allItineraryItems.add(dailyItineraryItems);
     }
 
     void removeItineraryRest(String name) {
-        for (ItineraryItem item : itineraryItems) {
+        for (ItineraryItem item : dailyItineraryItems) {
             if (item.getName().equals("Night in " + name)) {
-                itineraryItems.remove(item);
+                dailyItineraryItems.remove(item);
             }
         }
     }
-    HashSet<ItineraryItem> getItineraryItems() {
-        return itineraryItems;
+    HashSet<ItineraryItem> getDailyItineraryItems() {
+        return dailyItineraryItems;
+    }
+
+    ArrayList<LinkedHashSet<ItineraryItem>> getAllItineraryItems() {
+        return allItineraryItems;
     }
 
     double getTime() {
@@ -76,7 +84,8 @@ class Itinerary {
 
     void reset() {
         time = 0.0;
-        itineraryItems = new LinkedHashSet<>();
+        dailyItineraryItems = new LinkedHashSet<>();
+        allItineraryItems = new ArrayList<>();
     }
 
     void setPlannedHours(HashMap<Integer, Double> plannedHours) {
@@ -97,7 +106,7 @@ class Itinerary {
         sb.append("Current Schedule for ").append(title).append(":").append(System.lineSeparator());
         sb.append("Day ").append(dayCount).append("\t (").append(plannedHours.get(dayCount)).append(" hours planned)").
                 append(System.lineSeparator());
-        for (ItineraryItem item : itineraryItems) {
+        for (ItineraryItem item : dailyItineraryItems) {
             sb.append(count).append(". ").append(item.getName()).append(System.lineSeparator());
             sb.append("\t").append(item.getTime()).append(" hours").append(System.lineSeparator());
             if (item.getName().contains("Night in")) {

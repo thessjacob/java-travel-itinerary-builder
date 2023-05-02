@@ -5,6 +5,7 @@ import destination.Country;
 import destination.SuperRegion;
 import plan.ItineraryController;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public enum DataViewController {
@@ -68,10 +69,6 @@ public enum DataViewController {
         return country.getCity(cityName).getImageURL();
     }
 
-    public ArrayList<SuperRegion> getSuperRegions() {
-        return superRegions;
-    }
-
     public int getNumOfSuperRegions() {
         return numOfSuperRegions;
     }
@@ -96,5 +93,10 @@ public enum DataViewController {
         ip.resetTime();
         ip.itemList = ic.getList();
         ic.list.revalidate();
+    }
+
+    public void throwTimeWarning() {
+        String message = "You need to leave time for sleep! Please add overnight rest to continue planning.";
+        JOptionPane.showMessageDialog(ip, message);
     }
 }

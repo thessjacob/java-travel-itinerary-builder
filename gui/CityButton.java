@@ -1,6 +1,5 @@
 package gui;
 
-import destination.AbstractCity;
 import plan.ItineraryController;
 import plan.ItineraryItem;
 
