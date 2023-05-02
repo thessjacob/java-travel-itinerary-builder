@@ -1,0 +1,11 @@
+---
+SuperRegion
+Central Bosnia
+Name
+Baščaršija
+Time
+3
+Nearest City
+Sarajevo
+Cultural
+---

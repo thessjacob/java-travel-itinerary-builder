@@ -1,0 +1,92 @@
+---
+SuperRegion
+Vojvodina
+Name
+Novi Sad
+380000
+City
+---
+SuperRegion
+Vojvodina
+Name
+Zrenjanin
+76500
+City
+---
+SuperRegion
+Vojvodina
+Name
+Subotica
+105000
+City
+---
+SuperRegion
+Vojvodina
+Name
+Sremski Karlovci
+8750
+Village
+---
+SuperRegion
+Belgrade Capital Region
+Name
+Belgrade
+1370000
+City
+---
+SuperRegion
+Belgrade Capital Region
+Name
+Zemun
+180000
+City
+---
+SuperRegion
+Šumadija & Western
+Name
+Kragujevac
+150000
+City
+---
+SuperRegion
+Šumadija & Western
+Name
+Čačak
+72000
+City
+---
+SuperRegion
+Šumadija & Western
+Name
+Kraljevo
+67000
+City
+---
+SuperRegion
+Šumadija & Western
+Name
+Kruševac
+57000
+City
+---
+SuperRegion
+Southern & Eastern
+Name
+Niš
+186000
+City
+---
+SuperRegion
+Southern & Eastern
+Name
+Niška Banja
+186000
+Banja
+---
+SuperRegion
+Southern & Eastern
+Name
+Vranje
+67000
+City
+---

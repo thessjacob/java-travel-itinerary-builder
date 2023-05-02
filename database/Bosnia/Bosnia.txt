@@ -1,0 +1,5 @@
+---
+Name
+Bosnia
+SuperRegions
+Central Bosnia,Bosanska Krajina,Central Bosnia,Posavina,Semberija,Tropolje

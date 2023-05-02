@@ -1,0 +1,127 @@
+---
+SuperRegion
+Vojvodina
+Name
+Petrovaradin Fortress
+Time
+3
+Nearest City
+Novi Sad
+Cultural
+Historical
+---
+SuperRegion
+Vojvodina
+Name
+Fruška Gora
+Time
+6
+Nearest City
+Novi Sad
+Nature
+---
+SuperRegion
+Vojvodina
+Name
+Fantast
+Time
+2
+Nearest City
+Novi Sad
+Cultural
+Historical
+---
+SuperRegion
+Vojvodina
+Name
+Subotica Synagogue
+Time
+1
+Nearest City
+Subotica
+Cultural
+Historical
+---
+SuperRegion
+Vojvodina
+Name
+Sočanski Winery
+Time
+1.5
+Nearest City
+Zrenjanin
+Culinary
+---
+SuperRegion
+Vojvodina
+Name
+Konte Valone Winery
+Time
+1.5
+Nearest City
+Zrenjanin
+Culinary
+---
+SuperRegion
+Vojvodina
+Name
+Mihajlo Pupin Museum
+Time
+3
+Nearest City
+Zrenjanin
+Cultural
+---
+SuperRegion
+Belgrade Capital Region
+Name
+Avala
+Time
+4.5
+Nearest City
+Belgrade
+Cultural
+Historical
+---
+SuperRegion
+Belgrade Capital Region
+Name
+Red Star Stadium
+Time 4
+Nearest City
+Belgrade
+Cultural
+Sport
+---
+SuperRegion
+Šumadija & Western
+Name
+Smederevo Fortress
+Time
+2.5
+Nearest City
+Kragujevac
+Cultural
+Historical
+---
+SuperRegion
+Southern & Eastern
+Name
+Gamzigrad-Romuliana
+Time
+5
+Nearest City
+Niš
+Cultural
+Historical
+---
+SuperRegion
+Kosovo & Metohija
+Name
+SPECIAL NOTE
+Time
+0
+Nearest City
+Priština
+Cultural
+---
