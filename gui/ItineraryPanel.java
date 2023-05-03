@@ -18,6 +18,7 @@ class ItineraryPanel extends JPanel {
     private final ItineraryPanel panel;
     private final ItineraryController ic = ItineraryController.INSTANCE;
     private final DataViewController dvc = DataViewController.INSTANCE;
+
     private final JLabel tracker;
     public JList<String> itemList;
     private double totalTime = 0.0;
@@ -104,14 +105,14 @@ class ItineraryPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             ic.clearController();
+            ic.resetSLC();
             dvc.resetItineraryPanel();
         }
     }
 
     //Utility methods
     void addTime(double additionalTime) {
-        totalTime += additionalTime;
-        setTime(totalTime);
+        setTime(ic.getTotalTime());
     }
 
     void setTime(double totalTime) {

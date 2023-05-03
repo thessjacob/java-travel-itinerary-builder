@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class SiteButton extends JButton {
     private final String siteName;
@@ -101,33 +102,28 @@ public class SiteButton extends JButton {
     }
 
     private void itineraryItemOperation(boolean add, JButton button) {
-        boolean success;
         if (add) {
-            success = ic.addItineraryItem(siteName, "AbstractSite");
+            ic.addItineraryItem(siteName, "AbstractSite");
         } else {
-            success = ic.removeItineraryItem(siteName, "AbstractSite");
+            ic.removeItineraryItem(siteName, "AbstractSite");
         }
-
-        if (success) {
-            revalidation();
-        }
-
-        else {
-            JOptionPane.showMessageDialog(button, "Your day would be over 12 hours of tourism. Please select " +
-                    "someplace to rest for the night.");
-        }
+        revalidation();
     }
 
     private void revalidation() {
         //Create the new JList data
+        int count = 0;
         ArrayList<String> lines = new ArrayList<>();
-        HashSet<ItineraryItem> items = ic.getItineraryItems();
-        for (ItineraryItem item : items) {
-            lines.add(ic.getItineraryName(item) + " (" + ic.getItineraryTime(item) + " hours)");
+        ArrayList<LinkedHashSet<ItineraryItem>> allItems = ic.getAllItineraryItems();
+        for (LinkedHashSet<ItineraryItem> dailyItems : allItems) {
+            for (ItineraryItem item : dailyItems) {
+                lines.add(ic.getItineraryName(item) + " (" + ic.getItineraryTime(item) + " hours)");
+                count++;
+            }
         }
 
         //Set and revalidate
-        ic.list.setListData(lines.toArray(new String[items.size()]));
+        ic.list.setListData(lines.toArray(new String[count]));
         ic.list.revalidate();
     }
 }

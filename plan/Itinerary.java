@@ -36,11 +36,21 @@ class Itinerary {
     void addItineraryItem(ItineraryItem itineraryItem) {
         dailyItineraryItems.add(itineraryItem);
         time += itineraryItem.getTime();
+        if (allItineraryItems.size() > 0) {
+            allItineraryItems.remove(allItineraryItems.size() - 1);
+        }
+
+        allItineraryItems.add(dailyItineraryItems);
     }
 
     void removeItineraryItem(ItineraryItem itineraryItem) {
         time -= itineraryItem.getTime();
         dailyItineraryItems.remove(itineraryItem);
+        if (allItineraryItems.size() > 0) {
+            allItineraryItems.remove(allItineraryItems.size() - 1);
+        }
+
+        allItineraryItems.add(dailyItineraryItems);
     }
 
     ItineraryItem getItineraryItem(String itemName) {
@@ -56,7 +66,11 @@ class Itinerary {
 
     void addItineraryRest(String name, double time, String description) {
         dailyItineraryItems.add(new ItineraryItem(name, time, description));
+        if (allItineraryItems.size() > 0) {
+            allItineraryItems.remove(allItineraryItems.size() - 1);
+        }
         allItineraryItems.add(dailyItineraryItems);
+        dailyItineraryItems = new LinkedHashSet<>();
     }
 
     void removeItineraryRest(String name) {
@@ -66,7 +80,7 @@ class Itinerary {
             }
         }
     }
-    HashSet<ItineraryItem> getDailyItineraryItems() {
+    LinkedHashSet<ItineraryItem> getDailyItineraryItems() {
         return dailyItineraryItems;
     }
 
@@ -100,24 +114,21 @@ class Itinerary {
 
     @Override
     public String toString() {
-        int count = 1;
         int dayCount = 1;
         StringBuilder sb = new StringBuilder();
         sb.append("Current Schedule for ").append(title).append(":").append(System.lineSeparator());
-        sb.append("Day ").append(dayCount).append("\t (").append(plannedHours.get(dayCount)).append(" hours planned)").
-                append(System.lineSeparator());
-        for (ItineraryItem item : dailyItineraryItems) {
-            sb.append(count).append(". ").append(item.getName()).append(System.lineSeparator());
-            sb.append("\t").append(item.getTime()).append(" hours").append(System.lineSeparator());
-            if (item.getName().contains("Night in")) {
-                dayCount++;
-                sb.append(System.lineSeparator()).append("Day ").append(dayCount);
-                count = 0;
+        for (LinkedHashSet<ItineraryItem> itineraryItems : allItineraryItems) {
+            int count = 1;
+            sb.append("Day ").append(dayCount).append("\t (").append(plannedHours.get(dayCount)).append(" hours planned)").
+                    append(System.lineSeparator());
+            for (ItineraryItem item : itineraryItems) {
+                sb.append(count).append(". ").append(item.getName()).append(System.lineSeparator());
+                sb.append("\t").append(item.getTime()).append(" hours").append(System.lineSeparator());
+                count++;
+                sb.append(System.lineSeparator());
             }
-            count++;
-            sb.append(System.lineSeparator());
+            dayCount++;
         }
-
         return sb.toString();
     }
 }

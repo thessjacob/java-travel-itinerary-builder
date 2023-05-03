@@ -25,12 +25,12 @@ public class ItineraryItem {
         this.description = site.getDescription();
     }
 
-    ItineraryItem(AbstractCity city) {
+    ItineraryItem(AbstractCity city, double time) {
         this.name = city.getTitle();
         if (city.getTitle().contains("Free")) {
-            time = 1.5;
+            this.time = 1.5;
         } else {
-            time = 10.0;
+            this.time = time;
         }
         this.description = city.getDescription();
     }

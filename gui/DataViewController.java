@@ -61,6 +61,7 @@ public enum DataViewController {
     public String getCityName(String cityName) {
         return country.getCity(cityName).getName();
     }
+
     public String getCityDescription(String cityName) {
         return country.getCity(cityName).getDescription();
     }
@@ -85,7 +86,7 @@ public enum DataViewController {
         this.ip = ip;
     }
 
-    public void refreshItineraryPanel(double additionalTime) {
+    public void addTimeOnPanel(double additionalTime) {
         ip.addTime(additionalTime);
     }
 

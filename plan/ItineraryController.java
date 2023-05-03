@@ -5,7 +5,8 @@ import destination.AbstractSite;
 import gui.DataViewController;
 
 import javax.swing.*;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public enum ItineraryController {
 
@@ -25,6 +26,7 @@ public enum ItineraryController {
     public void clearController() {
         itinerary.reset();
         clearList();
+        slc.clear();
         dvc.setPlanning(true);
     }
 
@@ -42,27 +44,31 @@ public enum ItineraryController {
             ItineraryItem itineraryItem = new ItineraryItem(site);
             if (!itinerary.hasItem(itemName)) {
                 itinerary.addItineraryItem(itineraryItem);
-                dvc.refreshItineraryPanel(site.getDefaultTime());
+                dvc.addTimeOnPanel(site.getDefaultTime());
                 return true;
             } else {
                 return false;
             }
         } else if (type.equals("AbstractCity")) {
             AbstractCity city = dvc.getCountry().getCity(itemName);
-            slc.addActivityTime(10, true);
-            ItineraryItem itineraryItem = new ItineraryItem(city);
+            slc.addActivityTime(itinerary.getFREETIME(), true);
+            ItineraryItem itineraryItem = new ItineraryItem(city, getRestTime());
             itinerary.addItineraryItem(itineraryItem);
-            dvc.refreshItineraryPanel(itinerary.getFREETIME());
+            dvc.addTimeOnPanel(itinerary.getFREETIME());
             return true;
         }
         return false;
+    }
+
+    private double getRestTime() {
+        return 24 - (slc.getTotalTime() % 24);
     }
 
     public void addItineraryItemTimeSite(String itemName) {
         boolean canAdd = slc.addActivityTime(itinerary.getFREETIME(), false);
         if (canAdd) {
             itinerary.getItineraryItem(itemName).addTime();
-            dvc.refreshItineraryPanel(itinerary.getFREETIME());
+            dvc.addTimeOnPanel(itinerary.getFREETIME());
         } else {
             dvc.throwTimeWarning();
         }
@@ -72,15 +78,10 @@ public enum ItineraryController {
         boolean canAdd = slc.addActivityTime(itinerary.getFREETIME(), false);
         if (canAdd) {
             itinerary.getItineraryItem(itemName).addTime();
-            dvc.refreshItineraryPanel(itinerary.getFREETIME());
+            dvc.addTimeOnPanel(itinerary.getFREETIME());
         } else {
             dvc.throwTimeWarning();
         }
-    }
-
-    private boolean hasEnoughTime(AbstractSite site) {
-        double adjustedTime = itinerary.getTime() + site.getDefaultTime();
-        return !(adjustedTime > 12.0);
     }
 
     public boolean removeItineraryItem(String itemName, String type) {
@@ -92,24 +93,25 @@ public enum ItineraryController {
         }
 
         itinerary.removeItineraryItem(itineraryItem);
-        dvc.refreshItineraryPanel(-itineraryItem.getTime());
+        dvc.addTimeOnPanel(-itineraryItem.getTime());
         return true;
     }
 
     public void addItineraryRest(String name) {
-        slc.addRestTime(10.0);
-        itinerary.addItineraryRest("Night in " + name, 10.0, "Rest up!");
-        dvc.refreshItineraryPanel(10.0);
+        double time = getRestTime();
+        slc.addRestTime(time);
+        itinerary.addItineraryRest("Night in " + name, time, "Rest up!");
+        dvc.addTimeOnPanel(getRestTime());
     }
 
     public void removeItineraryRest(String name) {
         itinerary.removeItineraryRest(name);
-        dvc.refreshItineraryPanel(-10.0);
+        dvc.addTimeOnPanel(-10.0);
     }
 
     public boolean hasItem(String itemName) {
         if (! (itinerary.getDailyItineraryItems() == null)) {
-            for (ItineraryItem item : getItinerary().getDailyItineraryItems()) {
+            for (ItineraryItem item : itinerary.getDailyItineraryItems()) {
                 if (item.getName().equals(itemName)) {
                     return true;
                 }
@@ -127,12 +129,16 @@ public enum ItineraryController {
         return itinerary.toString();
     }
 
-    public HashSet<ItineraryItem> getItineraryItems() {
+    public LinkedHashSet<ItineraryItem> getDailyItineraryItems() {
         return itinerary.getDailyItineraryItems();
     }
 
+    public ArrayList<LinkedHashSet<ItineraryItem>> getAllItineraryItems() {
+        return itinerary.getAllItineraryItems();
+    }
+
     void setPlannedHours() {
-        slc.allocateDays(getItineraryItems());
+        slc.allocateDays(itinerary.getAllItineraryItems());
         itinerary.setPlannedHours(slc.getPlannedHours());
     }
 
@@ -146,5 +152,13 @@ public enum ItineraryController {
 
     public double getItineraryTime(ItineraryItem item) {
         return item.getTime();
+    }
+
+    public void resetSLC() {
+        slc.clear();
+    }
+
+    public double getTotalTime() {
+        return slc.getTotalTime();
     }
 }

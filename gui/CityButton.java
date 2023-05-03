@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 class CityButton extends JButton {
     private final DataViewController dvc = DataViewController.INSTANCE;
@@ -52,7 +53,7 @@ class CityButton extends JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (!ic.hasItem(cityName + " Free Time")) {
-                                itineraryItemOperation(true, cityButton);
+                                itineraryItemOperation(true);
                             } else {
                                 ic.addItineraryItemTimeCity(cityName + " Free Time");
                             }
@@ -74,7 +75,7 @@ class CityButton extends JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (ic.hasItem(cityName + " Free Time")) {
-                                itineraryItemOperation(false, cityButton);
+                                itineraryItemOperation(false);
                             }
                         }
                     });
@@ -89,7 +90,6 @@ class CityButton extends JButton {
                         }
                     });
 
-                    //c.gridwidth = GridBagConstraints.RELATIVE;
                     c.gridwidth = GridBagConstraints.HORIZONTAL;
                     c.gridx = selectionPanel.getComponentCount() + 1;
                     c.gridy = selectionPanel.getComponentCount() + 1;
@@ -110,29 +110,29 @@ class CityButton extends JButton {
     }
 
 
-    private void itineraryItemOperation(boolean add, JButton button) {
-        boolean success;
+    private void itineraryItemOperation(boolean add) {
         if (add) {
-            success = ic.addItineraryItem(cityName, "AbstractCity");
+            ic.addItineraryItem(cityName, "AbstractCity");
         } else {
-            success = ic.removeItineraryItem(cityName, "AbstractCity");
+            ic.removeItineraryItem(cityName, "AbstractCity");
         }
-
-        if (success) {
-            revalidation();
-        }
+        revalidation();
     }
 
     private void revalidation() {
         //Create the new JList data
+        int count = 0;
         ArrayList<String> lines = new ArrayList<>();
-        HashSet<ItineraryItem> items = ic.getItineraryItems();
-        for (ItineraryItem item : items) {
-            lines.add(ic.getItineraryName(item) + " (" + ic.getItineraryTime(item) + " hours)");
+        ArrayList<LinkedHashSet<ItineraryItem>> allItems = ic.getAllItineraryItems();
+        for (LinkedHashSet<ItineraryItem> dailyItems : allItems) {
+            for (ItineraryItem item : dailyItems) {
+                lines.add(ic.getItineraryName(item) + " (" + ic.getItineraryTime(item) + " hours)");
+                count++;
+            }
         }
 
         //Set and revalidate
-        ic.list.setListData(lines.toArray(new String[items.size()]));
+        ic.list.setListData(lines.toArray(new String[count]));
         ic.list.revalidate();
     }
 }

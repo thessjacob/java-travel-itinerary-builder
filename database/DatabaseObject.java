@@ -15,7 +15,7 @@ class DatabaseObject {
 
     protected DatabaseObject () {
         countries = new ArrayList<>();
-        BASE_URL = "src/database/";
+        BASE_URL = System.getProperty("user.dir") + "/src/database/";
         cities = new HashMap<>();
     }
 
