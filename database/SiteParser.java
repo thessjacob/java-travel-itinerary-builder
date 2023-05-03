@@ -4,6 +4,8 @@ import destination.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Scanner;
 
 class SiteParser {
@@ -63,8 +65,15 @@ class SiteParser {
 
     private static void populateSite(String siteName) {
         DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getSite(siteName).setNearestCityName(nearestCityName);
-        String fileName = String.format(System.getProperty("user.dir") +"/src/database/%s/Sites/%s.txt", currentCountryName, siteName);
-        File file = new File(fileName);
+        String fileName = String.format("/database/%s/Sites/%s.txt", currentCountryName, siteName);
+        File file = new File("");
+        try {
+            file = new File(SiteParser.class.getResource(fileName).toURI());
+        } catch (URISyntaxException uriSyntaxException) {
+            System.out.println("couldn't find file " + fileName);
+            System.exit(1);
+        }
+
         try {
             Scanner scanner = new Scanner(file);
             StringBuilder sb = new StringBuilder();
@@ -79,10 +88,18 @@ class SiteParser {
 
             String description = sb.toString();
             DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getSite(siteName).setDescription(description);
-            fileName = String.format(System.getProperty("user.dir") +"/src/database/%s/Sites/%s.jpg", currentCountryName, siteName);
-            DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getSite(siteName).setImageURL(fileName);
+            URL url = SiteParser.class.getResource(String.format("/database/%s/Sites/%s.jpg", currentCountryName, siteName));
+            if (url == null) {
+                file = new File ("");
+            } else {
+                file = new File(url.toURI());
+            }
+
+            DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getSite(siteName).setImageURL(file.getAbsolutePath());
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("oops");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 

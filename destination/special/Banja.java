@@ -12,6 +12,10 @@ public class Banja extends AbstractCity implements CanStay {
         super(name);
     }
 
+    public Banja(String name, int size) {
+        super(name, size);
+    }
+
     @Override
     public void rest() {
 

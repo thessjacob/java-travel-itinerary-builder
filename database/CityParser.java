@@ -2,10 +2,13 @@ package database;
 
 import destination.AbstractCity;
 import destination.City;
+import destination.Village;
 import destination.special.Banja;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Scanner;
 
 public class CityParser {
@@ -35,7 +38,7 @@ public class CityParser {
         String type = scanner.nextLine();
         AbstractCity newCity = switch (type) {
             case "City" -> new City(name, size);
-            case "Village" -> new City(name, size);
+            case "Village" -> new Village(name, size);
             default -> specialParser(name, type);
         };
         DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).addCity(newCity);
@@ -54,8 +57,15 @@ public class CityParser {
     }
 
     private static void populateCity(String cityName) {
-        String fileName = String.format(System.getProperty("user.dir") +"/src/database/%s/Cities/%s.txt", currentCountryName, cityName);
-        File file = new File(fileName);
+        String fileName = String.format("/database/%s/Cities/%s.txt", currentCountryName, cityName);
+        File file = new File("");
+
+        try {
+            file = new File(CityParser.class.getResource(fileName).toURI());
+        } catch (URISyntaxException uriSyntaxException) {
+            System.out.println("couldn't find file " + fileName);
+            System.exit(1);
+        }
         try {
             Scanner scanner = new Scanner(file);
             StringBuilder sb = new StringBuilder();
@@ -70,10 +80,18 @@ public class CityParser {
 
             String description = sb.toString();
             DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getCity(cityName).setDescription(description);
-            fileName = String.format(System.getProperty("user.dir") +"/src/database/%s/Cities/%s.jpg", currentCountryName, cityName);
-            DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getCity(cityName).setImageURL(fileName);
+            URL url = CityParser.class.getResource(String.format("/database/%s/Cities/%s.jpg", currentCountryName, cityName));
+            if (url == null) {
+                file = new File ("");
+            } else {
+                file = new File(url.toURI());
+            }
+
+            DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getCity(cityName).setImageURL(file.getAbsolutePath());
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("oops");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 }

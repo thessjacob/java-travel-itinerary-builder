@@ -1,0 +1,8 @@
+---
+SuperRegion
+Central Bosnia
+Name
+Sarajevo
+275000
+City
+---
