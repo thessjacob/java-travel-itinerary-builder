@@ -86,8 +86,8 @@ public enum DataViewController {
         this.ip = ip;
     }
 
-    public void addTimeOnPanel(double additionalTime) {
-        ip.addTime(additionalTime);
+    public void addTimeOnPanel() {
+        ip.addTime();
     }
 
     public void resetItineraryPanel() {

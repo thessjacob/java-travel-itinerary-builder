@@ -111,7 +111,7 @@ class ItineraryPanel extends JPanel {
     }
 
     //Utility methods
-    void addTime(double additionalTime) {
+    void addTime() {
         setTime(ic.getTotalTime());
     }
 

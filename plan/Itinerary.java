@@ -2,7 +2,6 @@ package plan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 class Itinerary {
@@ -11,21 +10,21 @@ class Itinerary {
     private LinkedHashSet<ItineraryItem> dailyItineraryItems;
     private HashMap<Integer, Double> plannedHours;
     private String title;
-    private double time;
+    private double totalTime;
     private final double FREETIME = 1.5;
 
     Itinerary() {}
 
     Itinerary(String title) {
         this.title = title;
-        this.time = 0;
+        this.totalTime = 0;
         dailyItineraryItems = new LinkedHashSet<>();
         allItineraryItems = new ArrayList<>();
     }
 
-    Itinerary(String title, double time) {
+    Itinerary(String title, double totalTime) {
         this.title = title;
-        this.time = time;
+        this.totalTime = totalTime;
 
     }
 
@@ -35,7 +34,7 @@ class Itinerary {
 
     void addItineraryItem(ItineraryItem itineraryItem) {
         dailyItineraryItems.add(itineraryItem);
-        time += itineraryItem.getTime();
+        totalTime += itineraryItem.getTime();
         if (allItineraryItems.size() > 0) {
             allItineraryItems.remove(allItineraryItems.size() - 1);
         }
@@ -44,13 +43,22 @@ class Itinerary {
     }
 
     void removeItineraryItem(ItineraryItem itineraryItem) {
-        time -= itineraryItem.getTime();
-        dailyItineraryItems.remove(itineraryItem);
+        /*if (allItineraryItems.size() > 1) {
+            dailyItineraryItems = allItineraryItems.get(allItineraryItems.size() - 2);
+            dailyItineraryItems.remove(itineraryItem);
+        } else {
+            dailyItineraryItems = new LinkedHashSet<>();
+        }
+
+        totalTime -= itineraryItem.getTime();
+
         if (allItineraryItems.size() > 0) {
             allItineraryItems.remove(allItineraryItems.size() - 1);
         }
 
-        allItineraryItems.add(dailyItineraryItems);
+        allItineraryItems.add(dailyItineraryItems);*/
+        dailyItineraryItems.remove(itineraryItem);
+        totalTime -= itineraryItem.getTime();
     }
 
     ItineraryItem getItineraryItem(String itemName) {
@@ -71,14 +79,26 @@ class Itinerary {
         }
         allItineraryItems.add(dailyItineraryItems);
         dailyItineraryItems = new LinkedHashSet<>();
+        allItineraryItems.add(dailyItineraryItems);
     }
 
     void removeItineraryRest(String name) {
+        dailyItineraryItems = allItineraryItems.get(allItineraryItems.size() - 2);
+        allItineraryItems.remove(allItineraryItems.size() - 1);
         for (ItineraryItem item : dailyItineraryItems) {
             if (item.getName().equals("Night in " + name)) {
                 dailyItineraryItems.remove(item);
             }
         }
+    }
+
+    ItineraryItem getNightBefore(String cityName) {
+        if (allItineraryItems.size() > 1) {
+            LinkedHashSet<ItineraryItem> set = allItineraryItems.get(allItineraryItems.size() - 2);
+            return (ItineraryItem) set.toArray()[set.size() - 1];
+        }
+
+        return new ItineraryItem("", 0, "");
     }
     LinkedHashSet<ItineraryItem> getDailyItineraryItems() {
         return dailyItineraryItems;
@@ -88,8 +108,8 @@ class Itinerary {
         return allItineraryItems;
     }
 
-    double getTime() {
-        return time;
+    double getTotalTime() {
+        return totalTime;
     }
 
     double getFREETIME() {
@@ -97,9 +117,10 @@ class Itinerary {
     }
 
     void reset() {
-        time = 0.0;
+        totalTime = 0.0;
         dailyItineraryItems = new LinkedHashSet<>();
         allItineraryItems = new ArrayList<>();
+        plannedHours = new HashMap<>();
     }
 
     void setPlannedHours(HashMap<Integer, Double> plannedHours) {
@@ -114,12 +135,15 @@ class Itinerary {
 
     @Override
     public String toString() {
-        int dayCount = 1;
+        int nightCount = 0;
         StringBuilder sb = new StringBuilder();
         sb.append("Current Schedule for ").append(title).append(":").append(System.lineSeparator());
         for (LinkedHashSet<ItineraryItem> itineraryItems : allItineraryItems) {
             int count = 1;
-            sb.append("Day ").append(dayCount).append("\t (").append(plannedHours.get(dayCount)).append(" hours planned)").
+            if (nightCount == plannedHours.size() + 1) {
+                break;
+            }
+            sb.append("Day ").append(nightCount + 1).append("\t (").append(plannedHours.get(nightCount)).append(" hours planned)").
                     append(System.lineSeparator());
             for (ItineraryItem item : itineraryItems) {
                 sb.append(count).append(". ").append(item.getName()).append(System.lineSeparator());
@@ -127,7 +151,7 @@ class Itinerary {
                 count++;
                 sb.append(System.lineSeparator());
             }
-            dayCount++;
+            nightCount++;
         }
         return sb.toString();
     }

@@ -16,31 +16,34 @@ enum SchedulingLogicController {
 
     public void allocateDays(ArrayList<LinkedHashSet<ItineraryItem>> allItineraryItems) {
         plannedHours = new HashMap<>();
+        nights = 0;
         for (LinkedHashSet<ItineraryItem> itineraryItems : allItineraryItems) {
             double hours = 0.0;
-            nights = 0;
             for (ItineraryItem item : itineraryItems) {
                 if (item.getName().contains("Night in")) {
-                    nights++;
                     dailyTime += item.getTime();
-                    plannedHours.put(nights, hours + item.getTime());
+                    plannedHours.put(nights, hours);
                     hours = 0.0;
+                    nights++;
                 } else {
                     hours += item.getTime();
+                    if (item == itineraryItems.toArray()[itineraryItems.size() - 1]) {
+                        plannedHours.put(nights, hours);
+                    }
                 }
             }
         }
     }
 
-    public HashMap<Integer, Double> getPlannedHours() {
+    HashMap<Integer, Double> getPlannedHours() {
         return plannedHours;
     }
 
-    public void clear() {
+    void clear() {
         clearPlannedHours();
         clearNumberOfActivities();
         clearTotalTime();
-        clearTotalTime();
+        clearDailyTime();
         clearNights();
     }
     private void clearPlannedHours() {
@@ -66,15 +69,29 @@ enum SchedulingLogicController {
     double getTotalTime() {
         return totalTime;
     }
-    public void addRestTime(double time) {
+
+    void addRestTime() {
         totalActivities++;
+        plannedHours.put(nights, dailyTime);
         nights++;
-        plannedHours.put(totalActivities, time);
         totalTime += DAY_LENGTH - dailyTime;
         dailyTime = 0;
     }
 
-    public boolean addActivityTime(double time, boolean newActivity) {
+    void removeRestTime(double time) {
+
+        totalActivities--;
+        nights--;
+        double tempTime = plannedHours.get(nights);
+        plannedHours.remove(nights);
+        totalTime -= time;
+        plannedHours.put(nights, tempTime);
+    }
+    void removeTime(double time) {
+        dailyTime -= time;
+        totalTime -= time;
+    }
+    boolean addActivityTime(double time, boolean newActivity) {
         if (newActivity) {
             if (checkTimeAvailable()) {
                 totalActivities++;
@@ -94,12 +111,8 @@ enum SchedulingLogicController {
         return false;
     }
 
-    public boolean checkTimeAvailable() {
-        if (dailyTime > 12.0) {
-            System.out.println("You need to leave time for sleep! Please add rest");
-            return false;
-        }
-        return true;
+    boolean checkTimeAvailable() {
+        return !(dailyTime > 12.0);
     }
 
 }

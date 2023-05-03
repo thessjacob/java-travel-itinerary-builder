@@ -83,7 +83,7 @@ class CityButton extends JButton {
                     removeButton2.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            if (ic.hasItem("Night in " + cityName)) {
+                            if (ic.hasNightIn("Night in " + cityName)) {
                                 ic.removeItineraryRest(cityName);
                                 revalidation();
                             }
