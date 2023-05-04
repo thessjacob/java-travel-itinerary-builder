@@ -4,7 +4,7 @@ import destination.AbstractCity;
 import destination.Country;
 import gui.DataViewController;
 
-import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,18 +15,20 @@ class DatabaseObject {
 
     protected DatabaseObject () {
         countries = new ArrayList<>();
-        BASE_URL = System.getProperty("user.dir") + "/src/database/";
+        BASE_URL = "/database/";
         cities = new HashMap<>();
     }
 
     void initDatabaseObject(String[] countryNames) {
         for (String s : countryNames) {
             String subDir = s + "/" + s;
-            SuperRegionParser.readFile(new File(BASE_URL + subDir + ".txt"));
-            CityParser.readFile(new File(BASE_URL + subDir + "City.txt"), s);
-            SiteParser.readFile(new File(BASE_URL + subDir + "Site.txt"), s);
+            SuperRegionParser.readFile(DatabaseObject.class.getClassLoader().getResourceAsStream(subDir + ".txt"));
+            CityParser.readFile(DatabaseObject.class.getClassLoader().getResourceAsStream(subDir + "City.txt"), s);
+            SiteParser.readFile(DatabaseObject.class.getClassLoader().getResourceAsStream(subDir + "Site.txt"), s);
             DataViewController.INSTANCE.initController(s);
         }
+
+
     }
 
     void addCountry(Country country) {

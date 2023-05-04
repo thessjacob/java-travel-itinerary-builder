@@ -1,5 +1,7 @@
 package destination;
 
+import java.net.URL;
+
 public abstract class AbstractSite implements Visitable {
     private final String name;
     private final double defaultTime;
@@ -37,8 +39,8 @@ public abstract class AbstractSite implements Visitable {
         this.imageURL = imageURL;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public URL getImageURL() {
+        return AbstractSite.class.getClassLoader().getResource(imageURL);
     }
 
     public double getDefaultTime() {

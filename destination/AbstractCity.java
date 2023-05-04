@@ -1,5 +1,6 @@
 package destination;
 
+import java.net.URL;
 import java.util.Objects;
 
 public abstract class AbstractCity implements CanStay {
@@ -50,8 +51,8 @@ public abstract class AbstractCity implements CanStay {
         this.imageURL = imageURL;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public URL getImageURL() {
+        return AbstractCity.class.getClassLoader().getResource(imageURL);
     }
 
     @Override

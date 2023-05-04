@@ -5,17 +5,15 @@ import destination.City;
 import destination.Village;
 import destination.special.Banja;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
-import java.net.URL;
+
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class CityParser {
     private static String currentCountryName = "";
     private static String superRegionName = "";
 
-    static void readFile(File file, String countryName) {
+    static void readFile(InputStream file, String countryName) {
         currentCountryName = countryName;
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
@@ -26,9 +24,6 @@ public class CityParser {
                     default -> superRegionName = "";
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("File " + file + " not found!");
-            throw new RuntimeException(e);
         }
     }
 
@@ -57,41 +52,25 @@ public class CityParser {
     }
 
     private static void populateCity(String cityName) {
-        String fileName = String.format("/database/%s/Cities/%s.txt", currentCountryName, cityName);
-        File file = new File("");
-
-        try {
-            file = new File(CityParser.class.getResource(fileName).toURI());
-        } catch (URISyntaxException uriSyntaxException) {
-            System.out.println("couldn't find file " + fileName);
-            System.exit(1);
-        }
-        try {
-            Scanner scanner = new Scanner(file);
-            StringBuilder sb = new StringBuilder();
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                if (line.isEmpty() || line.isBlank()) {
-                    sb.append(System.lineSeparator());
-                } else {
-                    sb.append(line).append(" ");
-                }
-            }
-
-            String description = sb.toString();
-            DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getCity(cityName).setDescription(description);
-            URL url = CityParser.class.getResource(String.format("/database/%s/Cities/%s.jpg", currentCountryName, cityName));
-            if (url == null) {
-                file = new File ("");
+        String fileName = String.format("%s/Cities/%s.txt", currentCountryName, cityName);
+        System.out.println(fileName);
+        InputStream file = CityParser.class.getClassLoader().getResourceAsStream(fileName);
+        Scanner scanner = new Scanner(file);
+        StringBuilder sb = new StringBuilder();
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            if (line.isEmpty() || line.isBlank()) {
+                sb.append(System.lineSeparator());
             } else {
-                file = new File(url.toURI());
+                sb.append(line).append(" ");
             }
-
-            DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getCity(cityName).setImageURL(file.getAbsolutePath());
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.out.println("oops");
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
         }
+
+        String description = sb.toString();
+        DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getCity(cityName).
+                setDescription(description);
+        String imageFileString = String.format("%s/Cities/%s.jpg", currentCountryName, cityName);
+        DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getCity(cityName).
+                setImageURL(imageFileString);
     }
 }

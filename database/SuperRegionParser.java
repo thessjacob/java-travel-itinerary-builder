@@ -3,14 +3,13 @@ package database;
 import destination.Country;
 import destination.SuperRegion;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Scanner;
 
 class SuperRegionParser {
     private static String currentCountryName = "";
 
-    static void readFile(File file) {
+    static void readFile(InputStream file) {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -20,9 +19,6 @@ class SuperRegionParser {
                     default -> {}
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("File " + file + " not found!");
-            throw new RuntimeException(e);
         }
     }
 

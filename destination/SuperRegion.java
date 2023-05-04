@@ -1,7 +1,6 @@
 package destination;
 
-import database.DatabaseController;
-
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -16,8 +15,7 @@ public class SuperRegion {
         this.name = name;
         this.cities = new ArrayList<>();
         this.sites = new ArrayList<>();
-        this.mapFile = System.getProperty("user.dir") + "/src/database/" + countryName + "/SuperRegions/" +
-                name + ".png";
+        this.mapFile = countryName + "/SuperRegions/" + name + ".png";
     }
 
     public String getName() {
@@ -58,8 +56,8 @@ public class SuperRegion {
         return null;
     }
 
-    public String getBaseMapImage() {
-        return mapFile;
+    public URL getBaseMapImage() {
+        return SuperRegion.class.getClassLoader().getResource(mapFile);
     }
 
     @Override

@@ -6,6 +6,7 @@ import destination.SuperRegion;
 import plan.ItineraryController;
 
 import javax.swing.*;
+import java.net.URL;
 import java.util.ArrayList;
 
 public enum DataViewController {
@@ -46,7 +47,7 @@ public enum DataViewController {
         return country.getSite(siteName).getDescription();
     }
 
-    public String getSiteImageURL(String siteName) {
+    public URL getSiteImageURL(String siteName) {
         return country.getSite(siteName).getImageURL();
     }
 
@@ -66,7 +67,7 @@ public enum DataViewController {
         return country.getCity(cityName).getDescription();
     }
 
-    public String getCityImageURL(String cityName) {
+    public URL getCityImageURL(String cityName) {
         return country.getCity(cityName).getImageURL();
     }
 

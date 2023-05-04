@@ -19,9 +19,8 @@ public class MainOptionsWindow extends JFrame {
 
         //Constructing window
         String countryName = dvc.getCountry().getName();
-        String fileName = String.format(System.getProperty("user.dir") +
-                "/src/database/%s/experience-%s.png", countryName, countryName);
-        ImageIcon img = new ImageIcon(fileName);
+        String fileName = String.format("%s/experience-%s.png", countryName, countryName);
+        ImageIcon img = new ImageIcon(MainOptionsWindow.class.getClassLoader().getResource(fileName));
         JLabel label = new JLabel(img, JLabel.CENTER);
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1;

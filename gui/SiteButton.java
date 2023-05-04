@@ -31,7 +31,7 @@ public class SiteButton extends JButton {
                     JScrollPane scrollPane = new JScrollPane(textArea);
                     scrollPane.setPreferredSize(new Dimension(600, 450));
                     ImageIcon icon = new ImageIcon(dvc.getSiteImageURL(siteName));
-                    JOptionPane.showMessageDialog(siteButton, scrollPane, siteName + "Info",
+                    JOptionPane.showMessageDialog(siteButton, scrollPane, siteName + " Info",
                             JOptionPane.INFORMATION_MESSAGE, icon);
                 }
             });

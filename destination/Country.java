@@ -1,31 +1,26 @@
 package destination;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Country {
-    protected final String RESOURCE_BASE_URL = System.getProperty("user.dir") + "/src/database/";
     private final String name;
     private final ArrayList<SuperRegion> superRegions;
-    private final String baseImageURL;
     private final String baseMapImage;
 
     public Country(String name) {
         this.name = name;
         this.superRegions = new ArrayList<>();
-        this.baseImageURL = RESOURCE_BASE_URL + name + "/";
-        this.baseMapImage = baseImageURL + name + ".png";
+        this.baseMapImage = name + "/" + name + ".png";
     }
 
     public String getName() {
         return name;
     }
 
-    public String getBaseImageURL() {
-        return baseImageURL;
-    }
 
-    public String getBaseMapImage() {
-        return baseMapImage;
+    public URL getBaseMapImage() {
+        return Country.class.getClassLoader().getResource(baseMapImage);
     }
 
 
