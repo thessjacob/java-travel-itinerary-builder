@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
-public class SiteButton extends JButton {
+class SiteButton extends JButton {
     private final String siteName;
     private final SiteButton siteButton;
     private final DataViewController dvc = DataViewController.INSTANCE;
@@ -45,7 +45,7 @@ public class SiteButton extends JButton {
                     c.gridwidth = GridBagConstraints.REMAINDER;
                     c.weightx = 1;
                     c.fill = HORIZONTAL;
-                    JLabel j0 = new JLabel(dvc.getSiteName(siteName));
+                    JLabel j0 = new JLabel(siteName);
                     JLabel j1 = new JLabel("Closest place to stay: " + dvc.getSiteNearestCityName(siteName));
                     JLabel j2 = new JLabel("Typical time to visit this site: " + dvc.getSiteDefaultTime(siteName) +
                             " hours.");
@@ -59,7 +59,7 @@ public class SiteButton extends JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (!ic.hasItem(siteName)) {
-                                itineraryItemOperation(true, siteButton);
+                                itineraryItemOperation(true);
                             }
                         }
                     });
@@ -78,7 +78,7 @@ public class SiteButton extends JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (ic.hasItem(siteName)) {
-                                itineraryItemOperation(false, siteButton);
+                                itineraryItemOperation(false);
                             }
                         }
                     });
@@ -100,7 +100,7 @@ public class SiteButton extends JButton {
         }
     }
 
-    private void itineraryItemOperation(boolean add, JButton button) {
+    private void itineraryItemOperation(boolean add) {
         if (add) {
             ic.addItineraryItem(siteName, "AbstractSite");
         } else {

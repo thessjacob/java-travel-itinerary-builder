@@ -14,8 +14,7 @@ class CountryWindow extends JFrame {
     private final int numOfSuperRegions = dvc.getNumOfSuperRegions();
     private final CountryWindow window;
     protected static String superRegionName = "";
-    protected JLabel centerLabel;
-
+    protected final JLabel centerLabel;
     protected static boolean displayingSuperRegion = false;
 
     CountryWindow() {

@@ -4,7 +4,6 @@ import destination.AbstractCity;
 import destination.CanStay;
 
 public class Banja extends AbstractCity implements CanStay {
-    private final String countryName = "Serbia";
 
     public Banja(){}
 

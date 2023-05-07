@@ -85,7 +85,7 @@ class SuperRegionButton extends JButton {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!CountryWindow.superRegionName.equals(e.getActionCommand())) {
-                countryWindow.centerLabel.setIcon(new ImageIcon(superRegion.getBaseMapImage()));
+                countryWindow.centerLabel.setIcon(new ImageIcon(superRegion.getMapImageFile()));
             } else {
                 countryWindow.centerLabel.setIcon(new ImageIcon(country.getBaseMapImage()));
             }

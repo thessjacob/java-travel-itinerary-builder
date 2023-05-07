@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 class CityButton extends JButton {
@@ -45,7 +44,7 @@ class CityButton extends JButton {
                     c.gridwidth = GridBagConstraints.REMAINDER;
                     c.weightx = 1;
                     c.fill = HORIZONTAL;
-                    JLabel j0 = new JLabel(dvc.getCityName(cityName));
+                    JLabel j0 = new JLabel(cityName);
                     selectionPanel.add(j0, c);
 
                     JButton freeButton = new JButton("Spend Free Time");

@@ -4,18 +4,15 @@ import destination.AbstractCity;
 import destination.Country;
 import gui.DataViewController;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 class DatabaseObject {
     private final ArrayList<Country> countries;
     private final HashMap<Country, ArrayList<AbstractCity>> cities;
-    private final String BASE_URL;
 
     protected DatabaseObject () {
         countries = new ArrayList<>();
-        BASE_URL = "/database/";
         cities = new HashMap<>();
     }
 

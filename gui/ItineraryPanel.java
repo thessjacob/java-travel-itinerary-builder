@@ -18,7 +18,6 @@ class ItineraryPanel extends JPanel {
     private final ItineraryPanel panel;
     private final ItineraryController ic = ItineraryController.INSTANCE;
     private final DataViewController dvc = DataViewController.INSTANCE;
-
     private final JLabel tracker;
     public JList<String> itemList;
     private double totalTime = 0.0;

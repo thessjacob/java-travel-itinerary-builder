@@ -7,7 +7,7 @@ import java.util.Objects;
 public class SuperRegion {
 
     private final String name;
-    private final String mapFile;
+    private final String mapURLFile;
     private final ArrayList<AbstractCity> cities;
     private final ArrayList<AbstractSite> sites;
 
@@ -15,7 +15,7 @@ public class SuperRegion {
         this.name = name;
         this.cities = new ArrayList<>();
         this.sites = new ArrayList<>();
-        this.mapFile = countryName + "/SuperRegions/" + name + ".png";
+        this.mapURLFile = countryName + "/SuperRegions/" + name + ".png";
     }
 
     public String getName() {
@@ -30,12 +30,13 @@ public class SuperRegion {
         sites.add(site);
     }
 
-    public ArrayList<AbstractCity> getCities() {
-        return cities;
-    }
-
-    public ArrayList<AbstractSite> getSites() {
-        return sites;
+    public AbstractCity getCity(String cityName) {
+        for (AbstractCity city : cities) {
+            if (city.getName().equals(cityName)) {
+                return city;
+            }
+        }
+        return null;
     }
 
     public AbstractSite getSite(String siteName) {
@@ -47,17 +48,16 @@ public class SuperRegion {
         return null;
     }
 
-    public AbstractCity getCity(String cityName) {
-        for (AbstractCity city : cities) {
-            if (city.getName().equals(cityName)) {
-                return city;
-            }
-        }
-        return null;
+    public ArrayList<AbstractCity> getCities() {
+        return cities;
     }
 
-    public URL getBaseMapImage() {
-        return SuperRegion.class.getClassLoader().getResource(mapFile);
+    public ArrayList<AbstractSite> getSites() {
+        return sites;
+    }
+
+    public URL getMapImageFile() {
+        return SuperRegion.class.getClassLoader().getResource(mapURLFile);
     }
 
     @Override

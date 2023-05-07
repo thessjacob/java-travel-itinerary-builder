@@ -43,20 +43,6 @@ class Itinerary {
     }
 
     void removeItineraryItem(ItineraryItem itineraryItem) {
-        /*if (allItineraryItems.size() > 1) {
-            dailyItineraryItems = allItineraryItems.get(allItineraryItems.size() - 2);
-            dailyItineraryItems.remove(itineraryItem);
-        } else {
-            dailyItineraryItems = new LinkedHashSet<>();
-        }
-
-        totalTime -= itineraryItem.getTime();
-
-        if (allItineraryItems.size() > 0) {
-            allItineraryItems.remove(allItineraryItems.size() - 1);
-        }
-
-        allItineraryItems.add(dailyItineraryItems);*/
         dailyItineraryItems.remove(itineraryItem);
         totalTime -= itineraryItem.getTime();
     }

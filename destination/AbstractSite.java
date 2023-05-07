@@ -5,11 +5,9 @@ import java.net.URL;
 public abstract class AbstractSite implements Visitable {
     private final String name;
     private final double defaultTime;
-    private double plannedTime;
     private String nearestCityName;
     private String description;
     private String imageURL;
-    private final double additionalFreeTimeIncrement = 1.5;
 
 
 

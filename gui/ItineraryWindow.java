@@ -3,7 +3,7 @@ package gui;
 
 import java.awt.*;
 
-public class ItineraryWindow extends CountryWindow {
+class ItineraryWindow extends CountryWindow {
 
     ItineraryWindow() {
         super();

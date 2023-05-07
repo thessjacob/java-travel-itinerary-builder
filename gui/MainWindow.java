@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainWindow extends JFrame {
+class MainWindow extends JFrame {
     private final MainWindow window;
     private final DataViewController dvc = DataViewController.INSTANCE;
 
@@ -33,14 +33,13 @@ public class MainWindow extends JFrame {
     }
 
     class CountryButton extends JButton {
-
         CountryButton(Country country) {
             setText(country.getName());
             addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dvc.initController(e.getActionCommand());
-                    WindowController.showWindow(new MainOptionsWindow());
+                    WindowController.showMainOptionsWindow();
                     WindowController.disposeWindow(window);
                 }
             });
