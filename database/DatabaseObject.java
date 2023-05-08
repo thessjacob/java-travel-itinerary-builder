@@ -1,21 +1,28 @@
+/**
+ * DatabaseObject.java is a default access class that countains an ArrayList of all configured countries. This data
+ * can be access from outside the package by the DatabaseController.
+ */
 package database;
 
-import destination.AbstractCity;
 import destination.Country;
 import gui.DataViewController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 class DatabaseObject {
     private final ArrayList<Country> countries;
-    private final HashMap<Country, ArrayList<AbstractCity>> cities;
 
+    /**
+     * 0-arg constructor.
+     */
     protected DatabaseObject () {
         countries = new ArrayList<>();
-        cities = new HashMap<>();
     }
 
+    /**
+     * Inits the database and fills it with information based on the passed in array of countryName strings.
+     * @param countryNames String array with countries to init the database with.
+     */
     void initDatabaseObject(String[] countryNames) {
         for (String s : countryNames) {
             String subDir = s + "/" + s;
@@ -25,19 +32,23 @@ class DatabaseObject {
             DataViewController.INSTANCE.initController(s);
         }
 
-
     }
 
+    /**
+     * Adds a country object to the Database.
+     * @param country Country object to add.
+     */
     void addCountry(Country country) {
        if (!countries.contains(country)) {
            countries.add(country);
        }
-
-       if (!cities.containsKey(country)) {
-           cities.put(country, new ArrayList<AbstractCity>());
-       }
     }
 
+    /**
+     * Gets a country from the database.
+     * @param name String name of country.
+     * @return Country object if one with input String name exists, otherwise return null.
+     */
     Country getCountry(String name) {
         for (Country c : countries) {
             if (c.getName().equals(name)) {
@@ -47,11 +58,11 @@ class DatabaseObject {
         return null;
     }
 
+    /**
+     * Return ArrayList of all Country objects in the database.
+     * @return ArrayList of all Country objects in the database.
+     */
     ArrayList<Country> getAllCountries() {
         return countries;
-    }
-
-    ArrayList<AbstractCity> getCities(Country country) {
-        return cities.get(country);
     }
 }

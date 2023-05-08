@@ -2,4 +2,4 @@
 Name
 Bosnia
 SuperRegions
-Central Bosnia,Bosanska Krajina,Central Bosnia,Posavina,Semberija,Tropolje
+Central Bosnia,Herzegovina,Eastern RS & Podrinje,Northern RS & Una-Sana,Northern Federation Cantons

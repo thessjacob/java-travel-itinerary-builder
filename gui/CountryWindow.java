@@ -12,13 +12,11 @@ class CountryWindow extends JFrame {
     private final DataViewController dvc = DataViewController.INSTANCE;
     private final Country country = dvc.getCountry();
     private final int numOfSuperRegions = dvc.getNumOfSuperRegions();
-    private final CountryWindow window;
     protected static String superRegionName = "";
     protected final JLabel centerLabel;
     protected static boolean displayingSuperRegion = false;
 
     CountryWindow() {
-        window = this;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override

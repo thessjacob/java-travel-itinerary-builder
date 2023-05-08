@@ -4,7 +4,6 @@
  * DataViewController, as only the ItineraryController can interact with the internal Itinerary object that represents
  * what a user has planned.
  */
-
 package plan;
 
 import destination.AbstractCity;
@@ -18,10 +17,10 @@ import java.util.LinkedHashSet;
 public enum ItineraryController {
 
     INSTANCE;
-    private final DataViewController dvc = DataViewController.INSTANCE;
+    private DataViewController dvc = DataViewController.INSTANCE;
     private final SchedulingLogicController slc = SchedulingLogicController.INSTANCE;
     private Itinerary itinerary;
-    public JList<String> list;
+    private JList<String> list;
 
 
     /**
@@ -30,6 +29,7 @@ public enum ItineraryController {
      */
     public void initItinerary(String title) {
         itinerary = new Itinerary(title);
+        dvc = DataViewController.INSTANCE; //Need to set this here to avoid runtime error.
         dvc.setPlanning(true);
     }
 
@@ -50,6 +50,14 @@ public enum ItineraryController {
      */
     public JList<String> getList() {
         return list;
+    }
+
+    /**
+     * Sets JList object containing the itinerary information.
+     * @param list JList object that will display the itinerary information.
+     */
+    public void setList(JList<String> list) {
+        this.list = list;
     }
 
     /**
@@ -78,11 +86,12 @@ public enum ItineraryController {
                 }
             } else if (type.equals("AbstractCity")) {
                 AbstractCity city = dvc.getCountry().getCity(itemName);
-                slc.addActivityTime(itinerary.getFREETIME(), true);
+                slc.addActivityTime(itinerary.getFREE_TIME(), true);
                 ItineraryItem itineraryItem = new ItineraryItem(city, getRestTime());
                 itinerary.addItineraryItem(itineraryItem);
                 dvc.addTimeOnPanel();
             }
+            //otherwise throw popup warning and do nothing
         } else {
             dvc.throwTimeWarning();
         }
@@ -102,9 +111,9 @@ public enum ItineraryController {
      * @param itemName String name of the ItineraryItem.
      */
     public void addItineraryItemTimeSite(String itemName) {
-        boolean canAdd = slc.addActivityTime(itinerary.getFREETIME(), false);
+        boolean canAdd = slc.addActivityTime(itinerary.getFREE_TIME(), false);
         if (canAdd) {
-            itinerary.getItineraryItem(itemName).addTime();
+            itinerary.getItineraryItem(itemName).addFreeTime();
             dvc.addTimeOnPanel();
         } else {
             dvc.throwTimeWarning();
@@ -116,9 +125,9 @@ public enum ItineraryController {
      * @param itemName String name of the ItineraryItem.
      */
     public void addItineraryItemTimeCity(String itemName) {
-        boolean canAdd = slc.addActivityTime(itinerary.getFREETIME(), false);
+        boolean canAdd = slc.addActivityTime(itinerary.getFREE_TIME(), false);
         if (canAdd) {
-            itinerary.getItineraryItem(itemName).addTime();
+            itinerary.getItineraryItem(itemName).addFreeTime();
             dvc.addTimeOnPanel();
         } else {
             dvc.throwTimeWarning();
@@ -162,7 +171,7 @@ public enum ItineraryController {
      */
     public void removeItineraryRest(String name) {
         if (itinerary.getDailyItineraryItems().size() == 0) {
-            ItineraryItem item = itinerary.getNightBefore(name);
+            ItineraryItem item = itinerary.getNightBefore();
             slc.removeRestTime(item.getTime());
             itinerary.removeItineraryRest(name);
             dvc.addTimeOnPanel();
@@ -193,7 +202,7 @@ public enum ItineraryController {
      */
     public boolean hasNightIn(String itemName) {
         if (itinerary.getAllItineraryItems().size() > 1) {
-            ItineraryItem item = itinerary.getNightBefore(itemName);
+            ItineraryItem item = itinerary.getNightBefore();
             return item.getName().equals(itemName);
         }
         return false;
@@ -221,7 +230,7 @@ public enum ItineraryController {
      * an Itinerary.
      */
     void setPlannedHours() {
-        slc.allocateDays(itinerary.getAllItineraryItems());
+        slc.allocateDays(itinerary);
         itinerary.setPlannedHours(slc.getPlannedHours());
     }
 

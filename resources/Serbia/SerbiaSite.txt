@@ -55,16 +55,6 @@ Culinary
 SuperRegion
 Vojvodina
 Name
-Konte Valone Winery
-Time
-1.5
-Nearest City
-Zrenjanin
-Culinary
----
-SuperRegion
-Vojvodina
-Name
 Mihajlo Pupin Museum
 Time
 3

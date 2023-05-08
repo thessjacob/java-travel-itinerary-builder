@@ -45,7 +45,7 @@ class ItineraryPanel extends JPanel {
         itemList = new JList<String>();
         itemList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         itemList.setLayoutOrientation(JList.VERTICAL);
-        ic.list = itemList;
+        ic.setList(itemList);
         add(itemList, c);
         c.weighty = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -114,7 +114,7 @@ class ItineraryPanel extends JPanel {
         setTime(ic.getTotalTime());
     }
 
-    void setTime(double totalTime) {
+    private void setTime(double totalTime) {
         String text = String.format("%.2f days (%.1f hours)", (totalTime/ 24), totalTime);
         tracker.setText(text);
         this.revalidate();

@@ -1,3 +1,7 @@
+/**
+ * SiteParser.java provides static methods for parsing the file that contains a list of AbstractSites found in a
+ * country. That list should be carefully formatted and place in a file called "countrynameSite.txt".
+ */
 package database;
 
 import destination.*;
@@ -13,7 +17,11 @@ class SiteParser {
     private static double time = 0;
 
 
-
+    /**
+     * Reads a file as input stream, carefully parsing its lines and branching to correct subordinate methods.
+     * @param file File to read in as an InputStream.
+     * @param countryName String name of country we are parsing information for.
+     */
     static void readFile(InputStream file, String countryName) {
         currentCountryName = countryName;
         try (Scanner scanner = new Scanner(file)) {
@@ -31,6 +39,11 @@ class SiteParser {
         }
     }
 
+    /**
+     * Creates a new AbstractSite object based on branching switch logic.
+     * @param type String type of AbstractSite descended object to create.
+     * @param scanner shared scanner for the InputStream file.
+     */
     private static void createSite(String type, Scanner scanner) {
         AbstractSite site = switch (type) {
             case "Culinary" -> new CulinarySite(siteName, time);
@@ -46,6 +59,11 @@ class SiteParser {
         }
     }
 
+    /**
+     * Creates CulturalSite subclass object if a subtype is provided.
+     * @param scanner shared scanner for the InputStream file.
+     * @return new CulturalSite descended object.
+     */
     private static AbstractSite createCulturalSite(Scanner scanner) {
         String subtype = scanner.nextLine();
 
@@ -57,6 +75,11 @@ class SiteParser {
         };
     }
 
+    /**
+     * Parses through multiple lines of information to populate an AbstractSite object with necessary information from
+     * the text file.
+     * @param siteName String name of AbstractSite object.
+     */
     private static void populateSite(String siteName) {
         DatabaseController.getCountry(currentCountryName).getSuperRegion(superRegionName).getSite(siteName).setNearestCityName(nearestCityName);
         String fileName = String.format("%s/Sites/%s.txt", currentCountryName, siteName);
@@ -80,18 +103,34 @@ class SiteParser {
                 setImageURL(imageFileString);
     }
 
+    /**
+     * Parses the line with the site name on it.
+     * @param scanner shared scanner for the InputStream file.
+     */
     private static void parseName(Scanner scanner) {
         siteName = scanner.nextLine();
     }
 
+    /**
+     * Parses the line with the SuperRegion on it.
+     * @param scanner shared scanner for the InputStream file.
+     */
     private static void parseSuperRegion(Scanner scanner) {
         superRegionName = scanner.nextLine();
     }
 
+    /**
+     * Parses the line with the default time on it.
+     * @param scanner shared scanner for the InputStream file.
+     */
     private static void parseTime(Scanner scanner) {
         time = Double.parseDouble(scanner.nextLine());
     }
 
+    /**
+     * Parses the line with the nearest city name on it.
+     * @param scanner shared scanner for the InputStream file.
+     */
     private static void parseNearestCity(Scanner scanner) {
         nearestCityName = scanner.nextLine();
     }

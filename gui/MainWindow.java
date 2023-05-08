@@ -17,6 +17,7 @@ class MainWindow extends JFrame {
         setLayout(new GridBagLayout());
         setSize(450, 250);
         setLocationRelativeTo(null);
+        setTitle("Travel Planner");
 
         //Restrictions
         GridBagConstraints c = new GridBagConstraints();

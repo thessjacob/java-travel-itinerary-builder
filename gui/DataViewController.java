@@ -153,7 +153,7 @@ public enum DataViewController {
     public void resetItineraryPanel() {
         ip.resetTime();
         ip.itemList = ic.getList();
-        ic.list.revalidate();
+        ic.getList().revalidate();
     }
 
     /**

@@ -44,13 +44,6 @@ City
 SuperRegion
 Šumadija & Western
 Name
-Kragujevac
-150000
-City
----
-SuperRegion
-Šumadija & Western
-Name
 Čačak
 72000
 City
@@ -58,15 +51,15 @@ City
 SuperRegion
 Šumadija & Western
 Name
-Kraljevo
-67000
+Kruševac
+57000
 City
 ---
 SuperRegion
 Šumadija & Western
 Name
-Kruševac
-57000
+Smederevo
+63000
 City
 ---
 SuperRegion

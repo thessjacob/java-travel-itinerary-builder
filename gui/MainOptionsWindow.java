@@ -18,9 +18,9 @@ class MainOptionsWindow extends JFrame {
         shouldOpenMain = true;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new GridBagLayout());
-        setSize(500, 300);
+        setSize(500, 350);
         setLocationRelativeTo(null);
-        setTitle("Trial");
+        setTitle(dvc.getCountry().getName());
 
 
         //Constructing window
@@ -58,8 +58,40 @@ class MainOptionsWindow extends JFrame {
             }
         });
         add(planButton, c);
-        add(new MainMenuButton("Surprise me"), c);
-
+        MainMenuButton surpriseButton = new MainMenuButton("Surprise me");
+        surpriseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message = "Sorry! The functionality to generate a random itinerary is not yet implemented! :(";
+                JOptionPane.showMessageDialog(window, message);
+            }
+        });
+        add(surpriseButton, c);
+        MainMenuButton helpButton = new MainMenuButton("Help");
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message =String.format("""
+                This is a Travel Itinerary Planner. Press the exit button at any time to return to the previous menu.
+                
+                The "Explore" button will let you explore the regions, cities, and sites of %s.
+                
+                The "Plan" button will let you plan an itinerary. There a few things to keep in mind:
+                    1. You cannot add the same activity twice to the same day. However, feel free to add additional free
+                    time at any location or to have the same activity on different days.
+                    
+                    2. You need to rest on your vacation. There is a maximum planned hours per day, after which the program 
+                    will warn you you need to rest. You can select to rest in any "place to stay" location, after which 
+                    you can begin to plan the next day.
+                    
+                    3. You will not be able to remove a night in a city ("remove rest") if you've planned something the
+                    following day. First remove all of that day's planned activities, then you will be able to remove
+                    the "night in" item.
+                """, dvc.getCountry().getName());
+                JOptionPane.showMessageDialog(window, message);
+            }
+        });
+        add(helpButton, c);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
