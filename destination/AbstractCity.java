@@ -1,3 +1,7 @@
+/**
+ * AbstractCity represents a settlement of some kind where visitors can spend free time and "rest", meaning spend the
+ * night or otherwise spend time not doing active tourism.
+ */
 package destination;
 
 import java.net.URL;
@@ -9,7 +13,6 @@ public abstract class AbstractCity implements CanStay {
     private final int size;
     private String imageURL;
     private String description;
-    private final double additionalFreeTimeIncrement = 1.5;
 
 
     public AbstractCity () {
@@ -25,7 +28,6 @@ public abstract class AbstractCity implements CanStay {
         this.title = name + " Free Time";
         this.size = size;
     }
-
 
     public String getName() {
         return name;
@@ -55,6 +57,11 @@ public abstract class AbstractCity implements CanStay {
         return AbstractCity.class.getClassLoader().getResource(imageURL);
     }
 
+    /**
+     * Intellij generated equals method for comparison of AbstractCity.
+     * @param o Object to compare current object against.
+     * @return true if objects are equal based on name and description variables.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,6 +69,10 @@ public abstract class AbstractCity implements CanStay {
         return size == that.size && Objects.equals(name, that.name);
     }
 
+    /**
+     * Intellij generated Hashcode for comparison of AbstractCity objects.
+     * @return int hashcode.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name, size);

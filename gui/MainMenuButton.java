@@ -1,3 +1,6 @@
+/**
+ * MainMenuButton.java is an extension of JButton that creates consistent buttons for the MainWindow.
+ */
 package gui;
 
 import javax.swing.*;

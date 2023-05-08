@@ -5,14 +5,11 @@
 package gui;
 
 import plan.ItineraryController;
-import plan.ItineraryItem;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 class SiteButton extends JButton {
     private final String siteName;
@@ -76,7 +73,7 @@ class SiteButton extends JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (!ic.hasItem(siteName)) {
-                                itineraryItemOperation(true);
+                                ButtonRevalidator.itineraryItemOperation(siteName, true, "AbstractSite");
                             }
                         }
                     });
@@ -87,7 +84,7 @@ class SiteButton extends JButton {
                         public void actionPerformed(ActionEvent e) {
                             if (ic.hasItem(siteName)) {
                                 ic.addItineraryItemTimeSite(siteName);
-                                revalidation();
+                                ButtonRevalidator.revalidation();
                             }
                         }
                     });
@@ -97,7 +94,7 @@ class SiteButton extends JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (ic.hasItem(siteName)) {
-                                itineraryItemOperation(false);
+                                ButtonRevalidator.itineraryItemOperation(siteName, false, "AbstractSite");
                             }
                         }
                     });
@@ -111,37 +108,11 @@ class SiteButton extends JButton {
                     selectionPanel.add(freeButton, c);
                     c.gridy += 1;
                     selectionPanel.add(removeButton, c);
-                    selectionPanel.setPreferredSize(new Dimension(600, 450));
+                    selectionPanel.setPreferredSize(new Dimension(600, 450)); //again, arbitrary dimensions
                     ImageIcon icon = new ImageIcon(dvc.getSiteImageURL(siteName));
                     JOptionPane.showMessageDialog(siteButton, selectionPanel, siteName, JOptionPane.INFORMATION_MESSAGE, icon);
                 }
             });
         }
-    }
-
-    private void itineraryItemOperation(boolean add) {
-        if (add) {
-            ic.addItineraryItem(siteName, "AbstractSite");
-        } else {
-            ic.removeItineraryItem(siteName, "AbstractSite");
-        }
-        revalidation();
-    }
-
-    private void revalidation() {
-        //Create the new JList data
-        int count = 0;
-        ArrayList<String> lines = new ArrayList<>();
-        ArrayList<LinkedHashSet<ItineraryItem>> allItems = ic.getAllItineraryItems();
-        for (LinkedHashSet<ItineraryItem> dailyItems : allItems) {
-            for (ItineraryItem item : dailyItems) {
-                lines.add(ic.getItineraryName(item) + " (" + ic.getItineraryTime(item) + " hours)");
-                count++;
-            }
-        }
-
-        //Set and revalidate
-        ic.getList().setListData(lines.toArray(new String[count]));
-        ic.getList().revalidate();
     }
 }

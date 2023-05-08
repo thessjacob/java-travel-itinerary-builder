@@ -81,7 +81,7 @@ class MainOptionsWindow extends JFrame {
                     time at any location or to have the same activity on different days.
                     
                     2. You need to rest on your vacation. There is a maximum planned hours per day, after which the program 
-                    will warn you you need to rest. You can select to rest in any "place to stay" location, after which 
+                    will warn you that you need to rest. You can select to rest in any "place to stay" location, after which 
                     you can begin to plan the next day.
                     
                     3. You will not be able to remove a night in a city ("remove rest") if you've planned something the

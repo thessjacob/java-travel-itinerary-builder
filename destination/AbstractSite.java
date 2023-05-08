@@ -1,3 +1,6 @@
+/**
+ * AbstractSite represents a tourist site visitors can go to and spend time at, but not stay at overnight.
+ */
 package destination;
 
 import java.net.URL;
@@ -8,7 +11,6 @@ public abstract class AbstractSite implements Visitable {
     private String nearestCityName;
     private String description;
     private String imageURL;
-
 
 
     public AbstractSite() {

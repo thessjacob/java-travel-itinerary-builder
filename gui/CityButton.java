@@ -4,16 +4,12 @@
  */
 package gui;
 
-import destination.City;
 import plan.ItineraryController;
-import plan.ItineraryItem;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 class CityButton extends JButton {
     private final DataViewController dvc = DataViewController.INSTANCE;
@@ -72,11 +68,11 @@ class CityButton extends JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (!ic.hasItem(cityName + " Free Time")) {
-                                itineraryItemOperation(true);
+                                ButtonRevalidator.itineraryItemOperation(cityName, true, "AbstractCity");
                             } else {
                                 ic.addItineraryItemTimeCity(cityName + " Free Time");
                             }
-                            revalidation();
+                            ButtonRevalidator.revalidation();
                         }
                     });
                     //Second
@@ -86,7 +82,7 @@ class CityButton extends JButton {
                         public void actionPerformed(ActionEvent e) {
                             if (!ic.hasItem("Night in " + cityName)) {
                                 ic.addItineraryRest(cityName);
-                                revalidation();
+                                ButtonRevalidator.revalidation();
                             }
                         }
                     });
@@ -96,7 +92,7 @@ class CityButton extends JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             if (ic.hasItem(cityName + " Free Time")) {
-                                itineraryItemOperation(false);
+                                ButtonRevalidator.itineraryItemOperation(cityName, false, "AbstractCity");
                             }
                         }
                     });
@@ -107,7 +103,7 @@ class CityButton extends JButton {
                         public void actionPerformed(ActionEvent e) {
                             if (ic.hasNightIn("Night in " + cityName)) {
                                 ic.removeItineraryRest(cityName);
-                                revalidation();
+                                ButtonRevalidator.revalidation();
                             }
                         }
                     });
@@ -129,33 +125,5 @@ class CityButton extends JButton {
                 }
             });
         }
-
-    }
-
-
-    private void itineraryItemOperation(boolean add) {
-        if (add) {
-            ic.addItineraryItem(cityName, "AbstractCity");
-        } else {
-            ic.removeItineraryItem(cityName, "AbstractCity");
-        }
-        revalidation();
-    }
-
-    private void revalidation() {
-        //Create the new JList data
-        int count = 0;
-        ArrayList<String> lines = new ArrayList<>();
-        ArrayList<LinkedHashSet<ItineraryItem>> allItems = ic.getAllItineraryItems();
-        for (LinkedHashSet<ItineraryItem> dailyItems : allItems) {
-            for (ItineraryItem item : dailyItems) {
-                lines.add(ic.getItineraryName(item) + " (" + ic.getItineraryTime(item) + " hours)");
-                count++;
-            }
-        }
-
-        //Set and revalidate
-        ic.getList().setListData(lines.toArray(new String[count]));
-        ic.getList().revalidate();
     }
 }

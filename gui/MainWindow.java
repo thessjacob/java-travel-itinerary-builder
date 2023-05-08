@@ -1,3 +1,6 @@
+/**
+ * MainWindow.java presents users with the initial window where they can pick what country to visit.
+ */
 package gui;
 
 import destination.Country;
@@ -11,6 +14,9 @@ class MainWindow extends JFrame {
     private final MainWindow window;
     private final DataViewController dvc = DataViewController.INSTANCE;
 
+    /**
+     * 0-arg constructor.
+     */
     MainWindow() {
         window = this;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -26,6 +32,7 @@ class MainWindow extends JFrame {
         c.gridwidth = GridBagConstraints.REMAINDER;
         add(new JLabel("Where would you like to visit?"), c);
         c.weighty = .2;
+        //Add CountryButtons for all database countries.
         for (Country country : dvc.getCountries()) {
             add(new CountryButton(country));
         }
@@ -33,6 +40,10 @@ class MainWindow extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Inner class extending JButton and adding a new anonymous ActionListener. When clicked, the CountryButton inits
+     * the DataViewController, opens the MainOptionsWindow, and disposes of the parent MainWindow.
+     */
     class CountryButton extends JButton {
         CountryButton(Country country) {
             setText(country.getName());

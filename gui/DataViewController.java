@@ -144,7 +144,7 @@ public enum DataViewController {
      * Adds time to the ItineraryPanel view.
      */
     public void addTimeOnPanel() {
-        ip.addTime();
+        ip.setTime(ic.getTotalTime());
     }
 
     /**
