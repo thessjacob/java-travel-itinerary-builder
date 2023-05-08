@@ -84,13 +84,13 @@ Cultural
 Sport
 ---
 SuperRegion
-Šumadija & Western
+Southern & Eastern
 Name
 Smederevo Fortress
 Time
 2.5
 Nearest City
-Kragujevac
+Smederevo
 Cultural
 Historical
 ---
@@ -114,4 +114,14 @@ Time
 Nearest City
 Priština
 Cultural
+---
+SuperRegion
+Šumadija & Western
+Name
+Kopaonik
+8
+Nearest City
+Kruševac
+Cultural
+Nature
 ---

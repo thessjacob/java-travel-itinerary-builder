@@ -56,7 +56,7 @@ Kruševac
 City
 ---
 SuperRegion
-Šumadija & Western
+Southern & Eastern
 Name
 Smederevo
 63000
